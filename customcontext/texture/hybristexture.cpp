@@ -39,6 +39,11 @@
 **
 ****************************************************************************/
 
+#define _GNU_SOURCE         /* See feature_test_macros(7) */
+#include <errno.h>
+extern char *program_invocation_name;
+extern char *program_invocation_short_name;
+
 #include <QtCore/qdebug.h>
 #include <QtCore/QCoreApplication>
 
@@ -251,7 +256,9 @@ void NativeBuffer::release()
 
 NativeBuffer *NativeBuffer::create(const QImage &image)
 {
+    // tmp tmp hack
     //if (image.width() * image.height() < 500 * 500 || image.depth() != 32)
+    if (strcmp(program_invocation_short_name, "sailfish-browser") != 0)
         return 0;
 
     if (!eglHybrisCreateNativeBuffer) {
