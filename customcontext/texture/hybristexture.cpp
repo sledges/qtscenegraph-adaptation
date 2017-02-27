@@ -257,9 +257,12 @@ void NativeBuffer::release()
 NativeBuffer *NativeBuffer::create(const QImage &image)
 {
     // tmp tmp hack
-    //if (image.width() * image.height() < 500 * 500 || image.depth() != 32)
-    if (strcmp(program_invocation_short_name, "sailfish-browser") != 0)
+    if (strcmp(program_invocation_short_name, "sailfish-browser") != 0) {
+      if (image.width() * image.height() < 500 * 500 || image.depth() != 32)
         return 0;
+    } else {
+        return 0;
+    }
 
     if (!eglHybrisCreateNativeBuffer) {
         initialize();
